@@ -6,10 +6,10 @@
 
 // you can subclass GAMECONTROLLER_CTF, GAMECONTROLLER_TDM etc if you want
 // todo a modification with their base as well.
-class CGameControllerMOD : public IGameController
+class CGameControllerFLY : public IGameController
 {
 public:
-	CGameControllerMOD(class CGameContext *pGameServer);
+	CGameControllerFLY(class CGameContext *pGameServer);
 	virtual void Tick();
 	// add more virtual functions here if you wish
 };
