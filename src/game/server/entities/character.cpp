@@ -735,7 +735,7 @@ bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weap
 	// m_pPlayer only inflicts half damage on self
 	if(From == m_pPlayer->GetCID())
 		Dmg = max(1, Dmg/2);
-	else
+	else if(Weapon == WEAPON_GRENADE || Weapon == WEAPON_HAMMER)
 		m_LastToucherID = From;
 
 	int OldHealth = m_Health, OldArmor = m_Armor;
