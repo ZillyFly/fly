@@ -532,6 +532,8 @@ void CCharacter::ResetInput()
 
 void CCharacter::Tick()
 {
+	FlyTick();
+
 	m_Core.m_Input = m_Input;
 	m_Core.Tick(true);
 
@@ -658,6 +660,9 @@ bool CCharacter::IncreaseArmor(int Amount)
 
 void CCharacter::Die(int Killer, int Weapon)
 {
+	if(m_LastToucherID != -1 && m_LastToucherID != m_pPlayer->GetCID() && Weapon == WEAPON_WORLD)
+		Killer = m_LastToucherID;
+
 	// we got to wait 0.5 secs before respawning
 	m_Alive = false;
 	m_pPlayer->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()/2;
@@ -730,6 +735,8 @@ bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weap
 	// m_pPlayer only inflicts half damage on self
 	if(From == m_pPlayer->GetCID())
 		Dmg = max(1, Dmg/2);
+	else
+		m_LastToucherID = From;
 
 	int OldHealth = m_Health, OldArmor = m_Armor;
 	if(Dmg)
@@ -863,4 +870,17 @@ void CCharacter::Snap(int SnappingClient)
 void CCharacter::PostSnap()
 {
 	m_TriggeredEvents = 0;
+}
+
+// battle fly
+
+void CCharacter::FlyTick()
+{
+	int hookedID = m_Core.m_HookedPlayer;
+	if(hookedID != -1)
+	{
+		CPlayer *pHooked = GameServer()->m_apPlayers[hookedID];
+		if(pHooked && pHooked->GetCharacter())
+			pHooked->GetCharacter()->m_LastToucherID = m_pPlayer->GetCID();
+	}
 }

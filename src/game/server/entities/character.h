@@ -63,7 +63,15 @@ public:
 	bool IsAlive() const { return m_Alive; }
 	class CPlayer *GetPlayer() { return m_pPlayer; }
 
+	// battle fly
+
+	int m_LastToucherID;
+
 private:
+
+	void FlyTick();
+
+
 	// player controlling this character
 	class CPlayer *m_pPlayer;
 

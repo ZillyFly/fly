@@ -986,6 +986,9 @@ set(EXPECTED_DATA
   maps/dm7.map
   maps/dm8.map
   maps/dm9.map
+  maps/flying2ChewingGum.map
+  maps/flying2caramel.map
+  maps/flying2fruity.map
   maps/license.txt
   maps/lms1.map
   maps/readme.txt
