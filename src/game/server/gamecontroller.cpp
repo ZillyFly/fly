@@ -220,8 +220,12 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 	// do scoreing
 	if(!pKiller || Weapon == WEAPON_GAME)
 		return 0;
+
 	if(pKiller == pVictim->GetPlayer())
-		pVictim->GetPlayer()->m_Score--; // suicide
+	{
+		if(Weapon != WEAPON_WORLD)
+			pVictim->GetPlayer()->m_Score--; // suicide
+	}
 	else
 	{
 		if(IsTeamplay() && pVictim->GetPlayer()->GetTeam() == pKiller->GetTeam())
@@ -231,7 +235,6 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 	}
 	if(Weapon == WEAPON_SELF)
 		pVictim->GetPlayer()->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()*3.0f;
-
 
 	// update spectator modes for dead players in survival
 	if(m_GameFlags&GAMEFLAG_SURVIVAL)
