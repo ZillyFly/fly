@@ -27,6 +27,7 @@ void CGameControllerFLY::OnCharacterSpawn(class CCharacter *pChr)
 		return;
 
 	pChr->m_LastToucherID = -1;
+	pChr->m_LastTouchTicks = 0;
 	IGameController::OnCharacterSpawn(pChr);
 }
 
@@ -262,4 +263,24 @@ void CGameControllerFLY::Tick()
 	}
 	// do a win check(grabbing flags could trigger win condition)
 	DoWincheckMatch();
+	FlyTick();
+}
+
+void CGameControllerFLY::FlyTick()
+{
+	for(int i = 0; i < MAX_CLIENTS; i++)
+	{
+		CPlayer *pPlayer = GameServer()->m_apPlayers[i];
+		if(!pPlayer)
+			continue;
+		CCharacter *pChr = pPlayer->GetCharacter();
+		if(!pChr)
+			continue;
+		if(pChr->m_LastToucherID == -1)
+			continue;
+
+		pChr->m_LastTouchTicks++;
+		if(pChr->m_LastTouchTicks > Server()->TickSpeed()) // 1 sec after touch counts as kill
+			pChr->SetLastToucher(-1);
+	}
 }

@@ -66,6 +66,8 @@ public:
 	// battle fly
 
 	int m_LastToucherID;
+	int m_LastTouchTicks;
+	void SetLastToucher(int ToucherID);
 
 private:
 

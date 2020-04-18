@@ -29,5 +29,7 @@ public:
 	// general
 	virtual void Snap(int SnappingClient);
 	virtual void Tick();
+
+	void FlyTick();
 };
 #endif
