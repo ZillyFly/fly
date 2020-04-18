@@ -660,7 +660,7 @@ bool CCharacter::IncreaseArmor(int Amount)
 
 void CCharacter::Die(int Killer, int Weapon)
 {
-	if(m_LastToucherID != -1 && m_LastToucherID != m_pPlayer->GetCID() && Weapon == WEAPON_WORLD)
+	if(m_LastToucherID != -1 && m_LastToucherID != m_pPlayer->GetCID() && Weapon == WEAPON_WORLD && GameServer()->m_apPlayers[m_LastToucherID])
 		Killer = m_LastToucherID;
 
 	// we got to wait 0.5 secs before respawning
